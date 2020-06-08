@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="account_json" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="Accounts_Json" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="Account_json" format="json">
+      <types:shape format="weave" example="examples/Accounts-Daniel.json"><![CDATA[%dw 2.0
+
+type Account_json = Array<{|  id: String,   firstName: String,   lastName: String,   address: String,   postal: String,   country: String,   miles: Number {"typeId": "int"},   creationDate: String,   "type": String|}> {"example": "[{\\\"id\\\":\\\"2\\\",\\\"firstName\\\":\\\"Micheal\\\",\\\"lastName\\\":\\\"Black\\\",\\\"address\\\":\\\"Vermont\\\",\\\"postal\\\":\\\"3020\\\",\\\"country\\\":\\\"UK\\\",\\\"miles\\\":50,\\\"creationDate\\\":\\\"2020-06-04T23:41:41.090Z\\\",\\\"type\\\":\\\"Business\\\"},{\\\"id\\\":\\\"1\\\",\\\"firstName\\\":\\\"Daniel\\\",\\\"lastName\\\":\\\"Jones\\\",\\\"address\\\":\\\"Forest Hill\\\",\\\"postal\\\":\\\"3131\\\",\\\"country\\\":\\\"AUS\\\",\\\"miles\\\":10,\\\"creationDate\\\":\\\"2020-06-04T23:41:41.090Z\\\",\\\"type\\\":\\\"Personal\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#370bf70f-937d-47e5-b767-b399c45eeaae">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="Account_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#41100345-c9a4-4e41-ad07-7c086cedbfbb">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="Account_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
