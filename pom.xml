@@ -67,16 +67,16 @@
             <classifier>mule-plugin</classifier>
         </dependency>
     	<dependency>
-            <groupId>c42529fb-49b4-4c72-a1df-dbbe38d18a76</groupId>
-            <artifactId>accounts-api</artifactId>
-            <version>1.0.4</version>
-            <classifier>raml</classifier>
-            <type>zip</type>
-        </dependency>
-    	<dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.20</version>
+        </dependency>
+    	<dependency>
+            <groupId>c42529fb-49b4-4c72-a1df-dbbe38d18a76</groupId>
+            <artifactId>accounts-api</artifactId>
+            <version>1.0.5</version>
+            <classifier>raml</classifier>
+            <type>zip</type>
         </dependency>
     </dependencies>
 
