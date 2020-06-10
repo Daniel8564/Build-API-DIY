@@ -6,17 +6,17 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="f8b52a27-7936-4279-9952-e78f408cf802" >
-		<http:listener-connection host="0.0.0.0" port="8081" />
-	</http:listener-config>
 	<db:config name="Database_Config" doc:name="Database Config" doc:id="0a0eb1b2-656d-4d2f-aa2a-195a65bdc0c6" >
 		<db:my-sql-connection host="mudb.learn.mulesoft.com" port="3306" user="mule" password="mule" database="training" />
 	</db:config>
 	<flow name="getAccounts" doc:id="c9f07054-7d37-4989-8567-c4ce57d43b29" >
-		<http:listener doc:name="Listener" doc:id="ae9ff9c7-4fe3-4993-a425-bb60eaa34eb9" config-ref="HTTP_Listener_config" path="/accounts"/>
 		<db:select doc:name="Select" doc:id="5a3fe291-c169-4999-b3c8-9580f09fdf0b" config-ref="Database_Config">
 			<db:sql ><![CDATA[SELECT * FROM flights_customers
+WHERE accountType= :acoType
 ]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	acoType: message.attributes.queryParams.'type' default 'Personal'
+}]]]></db:input-parameters>
 		</db:select>
 		<ee:transform doc:name="Transform Message" doc:id="370bf70f-937d-47e5-b767-b399c45eeaae" >
 			<ee:message >
@@ -41,7 +41,8 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 	<flow name="getAccountById" doc:id="6839312c-704f-4008-9b53-69be141806c4" >
 		<db:select doc:name="QueryAccountByID" doc:id="5122d59b-38be-489e-910e-1d3604fbb09c" config-ref="Database_Config">
 			<db:sql ><![CDATA[SELECT * from flights_customers
-WHERE accountID= :id]]></db:sql>
+WHERE accountID = :id
+]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
 	id: message.attributes.uriParams.'id'
 }]]]></db:input-parameters>

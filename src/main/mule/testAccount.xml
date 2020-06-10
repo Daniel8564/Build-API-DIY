@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="Test-Listener-Account" doc:name="HTTP Listener config" doc:id="1f661a30-d985-4ec3-9189-c5fe386a072e" >
+		<http:listener-connection host="0.0.0.0" port="9090" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="cec99d18-b954-40fd-adb8-ad27358f1f91" basePath="/api" >
+		<http:request-connection host="0.0.0.0" port="8081" />
+	</http:request-config>
+	<flow name="testAccountFlow" doc:id="3fe26864-69df-441c-be83-43f1ec652d8c" >
+		<http:listener doc:name="getAccountDetails" doc:id="05c0a279-177c-47f9-9d9b-17be244b5c34" config-ref="Test-Listener-Account" path="/testAccount"/>
+		<http:request method="GET" doc:name="Get /account" doc:id="91c82b9c-d2e0-4621-a56e-fa27a9a8b380" config-ref="HTTP_Request_configuration" path="/accounts">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Requested_id" : "4400"
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"type" : "Personal"
+}]]]></http:query-params>
+		</http:request>
+	</flow>
+	<flow name="testToOneAccount" doc:id="a78fff77-1edd-4230-86fb-d67534dc9219" >
+		<http:listener doc:name="getAccountByID" doc:id="a99cbced-0ed6-46d9-81e6-934a6b9cd3d7" config-ref="Test-Listener-Account" path="/testToAccountID"/>
+		<http:request method="GET" doc:name="Get /accounts/ID" doc:id="519856e8-8754-4ac3-b1fe-0659e081df35" config-ref="HTTP_Request_configuration" path="/accounts/{id}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Requested_id" : "4402"
+}]]]></http:headers>
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"id" : "4402"
+}]]]></http:uri-params>
+		</http:request>
+	</flow>
+</mule>
